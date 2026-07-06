@@ -1,0 +1,16 @@
+match_id,player,rating,team,position,events,goals,shots,xg,passes,pass_accuracy_pct,dribbles,tackles,interceptions,fouls,yellow_cards,red_cards
+1,Joseph Nnamdi,100.0,Barau,ST,32,0,3,0.73,13,76.9,6,5,2,1,1,0
+2,Femi Ekong,100.0,Remo Stars,LB,28,0,5,1.55,16,81.2,1,2,3,0,0,0
+4,Olamide Abubakar,100.0,Nasarawa United,CDM,34,0,6,1.84,17,70.6,2,4,1,0,0,0
+3,Adewale Mustapha,100.0,Katsina United,ST,25,1,5,1.62,10,80.0,1,4,2,0,0,1
+5,Femi Nwankwo,100.0,Kun Khalifat,CM,33,0,2,0.4,18,83.3,1,4,4,0,1,0
+6,Chibuzor Onuoha,100.0,Niger Tornadoes,CAM,29,1,2,0.77,19,89.5,2,1,3,0,1,0
+2,Tunde Etim,97.7,Remo Stars,RW,19,2,3,0.88,9,55.6,1,1,2,1,0,0
+4,Joseph Balogun,96.9,Enyimba,RW,28,1,3,1.36,16,87.5,1,2,3,0,0,0
+5,Emmanuel Lawal,96.7,Kano Pillars,CDM,28,0,5,1.81,12,91.7,2,2,1,2,0,0
+4,Chidi Chukwu,95.8,Enyimba,CAM,32,1,4,1.2,16,75.0,3,2,1,3,0,0
+5,Olamide Mohammed,94.0,Kano Pillars,CAM,33,0,1,0.57,15,86.7,1,7,5,2,0,0
+6,Obinna Okonkwo,91.8,Kwara United,LW,32,0,3,0.98,17,88.2,1,3,5,1,0,0
+5,Chukwuemeka Ibrahim,91.7,Kano Pillars,LW,27,0,5,1.48,13,61.5,1,2,2,3,0,0
+6,Obinna Egwuekwe,90.9,Niger Tornadoes,LB,25,0,4,0.84,11,90.9,0,7,2,0,0,0
+3,Samuel Ndukwe,90.2,Kwara United,RW,33,0,4,1.19,16,93.8,2,2,4,1,0,0

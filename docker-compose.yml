@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  # One-off pipeline run: load -> clean -> analyze -> charts -> reports.
+  # Usage: docker compose run --rm pipeline
+  pipeline:
+    build: .
+    image: momentum-analyzer:latest
+    command: ["python", "src/main.py"]
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./charts:/app/charts
+      - ./logs:/app/logs
+
+  # Interactive dashboard, available at http://localhost:8501
+  # Usage: docker compose up dashboard
+  dashboard:
+    build: .
+    image: momentum-analyzer:latest
+    command: ["streamlit", "run", "src/dashboard.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./charts:/app/charts
+      - ./logs:/app/logs
