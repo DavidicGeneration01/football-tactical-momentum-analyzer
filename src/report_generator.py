@@ -1,6 +1,4 @@
-"""
-Phase 4 — Report generation: PDF, Excel workbook, CSV exports, HTML report.
-"""
+"""Report exports: CSV, Excel, HTML, and PDF."""
 
 from __future__ import annotations
 
@@ -26,10 +24,6 @@ from logger import get_logger
 
 log = get_logger(__name__)
 
-
-# --------------------------------------------------------------------------
-# CSV exports
-# --------------------------------------------------------------------------
 def export_csvs(tables: dict[str, pd.DataFrame], out_dir: Path = DATA_REPORTS_DIR) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = []
@@ -40,16 +34,12 @@ def export_csvs(tables: dict[str, pd.DataFrame], out_dir: Path = DATA_REPORTS_DI
         log.info("Exported CSV: %s", path)
     return paths
 
-
-# --------------------------------------------------------------------------
-# Excel workbook (multi-sheet)
-# --------------------------------------------------------------------------
 def export_excel(tables: dict[str, pd.DataFrame], filename: str = "analysis.xlsx") -> Path:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     path = REPORTS_DIR / filename
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
         for sheet_name, table in tables.items():
-            safe_name = sheet_name[:31]  # Excel sheet name limit
+            safe_name = sheet_name[:31]  # Excel gets picky here
             table.to_excel(writer, sheet_name=safe_name, index=False)
 
             worksheet = writer.sheets[safe_name]
@@ -63,10 +53,6 @@ def export_excel(tables: dict[str, pd.DataFrame], filename: str = "analysis.xlsx
     log.info("Exported Excel workbook: %s", path)
     return path
 
-
-# --------------------------------------------------------------------------
-# HTML report
-# --------------------------------------------------------------------------
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +72,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
 <h1>{title}</h1>
-<p class="meta">Generated {timestamp}</p>
+<p class="meta">Built {timestamp}</p>
 {body}
 </body>
 </html>
@@ -114,13 +100,9 @@ def export_html_report(tables: dict[str, pd.DataFrame], filename: str = "report.
     log.info("Exported HTML report: %s", path)
     return path
 
-
-# --------------------------------------------------------------------------
-# PDF report
-# --------------------------------------------------------------------------
 def _df_to_pdf_table(df: pd.DataFrame, max_rows: int = 15) -> Table:
-    display_df = df.head(max_rows)
-    data = [list(display_df.columns)] + display_df.astype(str).values.tolist()
+    preview = df.head(max_rows)
+    data = [list(preview.columns)] + preview.astype(str).values.tolist()
     table = Table(data, repeatRows=1)
     table.setStyle(
         TableStyle(
@@ -149,7 +131,7 @@ def export_pdf_report(
     styles = getSampleStyleSheet()
     story = [
         Paragraph("Football Tactical Momentum Analyzer", styles["Title"]),
-        Paragraph(f"Generated {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}", styles["Normal"]),
+        Paragraph(f"Built {dt.datetime.now().strftime('%Y-%m-%d %H:%M')}", styles["Normal"]),
         Spacer(1, 0.8 * cm),
     ]
 
@@ -174,7 +156,6 @@ def export_pdf_report(
 def generate_all_reports(
     tables: dict[str, pd.DataFrame], chart_paths: list[Path] | None = None
 ) -> dict[str, Path]:
-    """Convenience entry point used by main.py to build every output format."""
     outputs = {
         "excel": export_excel(tables),
         "html": export_html_report(tables),

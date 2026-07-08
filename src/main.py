@@ -1,13 +1,4 @@
-"""
-Pipeline orchestrator.
-
-Runs the full flow: load -> clean -> analyze -> momentum -> ratings ->
-charts -> reports. This is the CLI entry point for Phases 1, 2, and 4.
-(Phase 3's dashboard is launched separately via `streamlit run src/dashboard.py`.)
-
-Usage:
-    python src/main.py
-"""
+"""CLI pipeline. Run with: python src/main.py"""
 
 from __future__ import annotations
 
@@ -65,20 +56,20 @@ def run_pipeline() -> None:
 
     ensure_directories()
 
-    log.info("=== Phase 1: Load & Clean ===")
+    log.info("=== Load and clean ===")
     raw = load_raw_data(RAW_EVENTS_FILE)
     df = clean_events(raw)
     save_processed(df)
 
-    log.info("=== Phase 2: Analytics ===")
+    log.info("=== Analytics ===")
     stats = team_match_stats(df)
     ratings = team_ratings(stats)
     m_ratings = match_ratings(stats)
     perf = performance_summary(stats)
     corr = correlation_matrix(stats)
 
-    df_xt = add_xt_column(df)
-    xt_summary = team_xt_summary(df_xt)
+    xt_df = add_xt_column(df)
+    xt_summary = team_xt_summary(xt_df)
 
     p_stats = player_match_stats(df)
     p_ratings = player_rating(df)
@@ -92,10 +83,10 @@ def run_pipeline() -> None:
         m_summary = momentum_summary(momentum_df, teams_in_match[0], teams_in_match[1])
         log.info("Momentum summary for match %s: %s", first_match_id, m_summary)
 
-    log.info("=== Phase 3 note ===")
+    log.info("=== Dashboard note ===")
     log.info("Run `streamlit run src/dashboard.py` for the interactive dashboard.")
 
-    log.info("=== Phase 4: Charts & Reports ===")
+    log.info("=== Charts and reports ===")
     chart_paths = generate_all_charts(
         df, momentum_df, teams_in_match, perf, corr, top_players,
     )

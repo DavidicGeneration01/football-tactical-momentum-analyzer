@@ -1,12 +1,4 @@
-"""
-Centralized logging setup.
-
-Usage
------
-    from logger import get_logger
-    log = get_logger(__name__)
-    log.info("Loaded %d events", len(df))
-"""
+"""Project logging setup."""
 
 from __future__ import annotations
 
@@ -52,7 +44,6 @@ def _configure_root() -> None:
 
 
 def get_logger(name: str = "momentum_analyzer") -> logging.Logger:
-    """Return a namespaced logger that shares the project's handlers."""
     _configure_root()
     if name == "momentum_analyzer":
         return logging.getLogger(name)

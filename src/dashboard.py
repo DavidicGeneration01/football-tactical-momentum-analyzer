@@ -1,9 +1,4 @@
-"""
-Phase 3 — Streamlit dashboard.
-
-Run with:
-    streamlit run src/dashboard.py
-"""
+"""Streamlit dashboard. Run with: streamlit run src/dashboard.py"""
 
 from __future__ import annotations
 
@@ -41,10 +36,6 @@ st.set_page_config(
     layout="wide",
 )
 
-
-# --------------------------------------------------------------------------
-# Data loading (cached)
-# --------------------------------------------------------------------------
 @st.cache_data(show_spinner="Loading match data...")
 def get_data() -> pd.DataFrame:
     raw = load_raw_data(RAW_EVENTS_FILE)
@@ -53,9 +44,6 @@ def get_data() -> pd.DataFrame:
 
 df = get_data()
 
-# --------------------------------------------------------------------------
-# Sidebar filters
-# --------------------------------------------------------------------------
 logo_path = ASSETS_DIR / "logo.png"
 if logo_path.exists():
     st.sidebar.image(str(logo_path), use_container_width=True)
@@ -67,46 +55,40 @@ match_labels = {
     row.match_id: f"#{row.match_id}: {row.home_team} vs {row.away_team}"
     for row in matches.itertuples()
 }
-selected_match_id = st.sidebar.selectbox(
+match_id = st.sidebar.selectbox(
     "Match", options=matches["match_id"], format_func=lambda m: match_labels[m]
 )
 
-match_df = df[df["match_id"] == selected_match_id]
-teams = sorted(match_df["team"].unique())
+match_data = df[df["match_id"] == match_id]
+teams = sorted(match_data["team"].unique())
 
 minute_range = st.sidebar.slider(
-    "Minute range", 0, int(match_df["minute"].max()) + 1,
-    (0, int(match_df["minute"].max()) + 1),
+    "Minute range", 0, int(match_data["minute"].max()) + 1,
+    (0, int(match_data["minute"].max()) + 1),
 )
 event_types = st.sidebar.multiselect(
     "Event types", options=sorted(df["event_type"].unique()),
     default=sorted(df["event_type"].unique()),
 )
 
-filtered = match_df[
-    (match_df["minute"] >= minute_range[0])
-    & (match_df["minute"] <= minute_range[1])
-    & (match_df["event_type"].isin(event_types))
+filtered = match_data[
+    (match_data["minute"] >= minute_range[0])
+    & (match_data["minute"] <= minute_range[1])
+    & (match_data["event_type"].isin(event_types))
 ]
 
 st.sidebar.markdown("---")
 st.sidebar.caption(f"{len(df):,} total events loaded across {matches.shape[0]} matches")
 
-# --------------------------------------------------------------------------
-# Header
-# --------------------------------------------------------------------------
 st.title("Football Tactical Momentum Analyzer")
-st.subheader(match_labels[selected_match_id])
+st.subheader(match_labels[match_id])
 
-# --------------------------------------------------------------------------
-# Momentum timeline (interactive)
-# --------------------------------------------------------------------------
-momentum_df = compute_momentum_index(df, match_id=selected_match_id)
+momentum = compute_momentum_index(df, match_id=match_id)
 
 fig = go.Figure()
 fig.add_trace(
     go.Scatter(
-        x=momentum_df["minute"], y=momentum_df["momentum_diff"],
+        x=momentum["minute"], y=momentum["momentum_diff"],
         fill="tozeroy", mode="lines", name="Momentum",
         line=dict(color="#3ddc84"),
     )
@@ -120,7 +102,7 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 if len(teams) == 2:
-    summary = momentum_summary(momentum_df, teams[0], teams[1])
+    summary = momentum_summary(momentum, teams[0], teams[1])
     c1, c2, c3, c4 = st.columns(4)
     c1.metric(f"{teams[0]} minutes led", summary[f"{teams[0]}_minutes_led"])
     c2.metric(f"{teams[1]} minutes led", summary[f"{teams[1]}_minutes_led"])
@@ -129,9 +111,6 @@ if len(teams) == 2:
 
 st.markdown("---")
 
-# --------------------------------------------------------------------------
-# Tabs: Team stats / Player stats / Heatmaps / Correlations / Downloads
-# --------------------------------------------------------------------------
 tab1, tab2, tab3, tab4, tab5 = st.tabs(
     ["📊 Team Stats", "🧑 Players", "🔥 Heatmaps & Shots", "📈 Correlations", "⬇️ Downloads"]
 )
@@ -144,10 +123,10 @@ with tab1:
     left, right = st.columns([2, 1])
     with left:
         st.markdown("#### Match stats")
-        st.dataframe(stats[stats["match_id"] == selected_match_id], use_container_width=True)
+        st.dataframe(stats[stats["match_id"] == match_id], use_container_width=True)
     with right:
         st.markdown("#### Team rating (this match)")
-        st.dataframe(ratings[ratings["match_id"] == selected_match_id], use_container_width=True)
+        st.dataframe(ratings[ratings["match_id"] == match_id], use_container_width=True)
 
     st.markdown("#### Season performance summary")
     st.dataframe(perf, use_container_width=True)
@@ -183,10 +162,10 @@ with tab3:
     fig3.update_yaxes(autorange="reversed")
     st.plotly_chart(fig3, use_container_width=True)
 
-    df_xt = add_xt_column(df)
-    xt_summary = team_xt_summary(df_xt)
-    st.markdown("#### Expected Threat (xT) generated — this match")
-    st.dataframe(xt_summary[xt_summary["match_id"] == selected_match_id], use_container_width=True)
+    xt_df = add_xt_column(df)
+    xt_summary = team_xt_summary(xt_df)
+    st.markdown("#### Expected Threat (xT), this match")
+    st.dataframe(xt_summary[xt_summary["match_id"] == match_id], use_container_width=True)
 
 with tab4:
     stats = team_match_stats(df)

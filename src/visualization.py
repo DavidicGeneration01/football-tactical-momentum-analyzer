@@ -1,7 +1,4 @@
-"""
-Static chart generation (matplotlib/seaborn) used by the report generator,
-and shared figure builders reused by the Streamlit dashboard's Plotly views.
-"""
+"""Static charts for the reports."""
 
 from __future__ import annotations
 
@@ -9,7 +6,7 @@ from pathlib import Path
 
 import matplotlib
 
-matplotlib.use("Agg")  # headless-safe backend for report generation
+matplotlib.use("Agg")  # works without opening a window
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -107,13 +104,12 @@ def plot_player_ratings(top_players: pd.DataFrame) -> Path:
 
 
 def _draw_pitch(ax: plt.Axes) -> None:
-    """Minimal top-down pitch outline in the 120x80 coordinate system."""
     ax.set_facecolor("#0f2e1c")
     ax.plot([0, 0, PITCH_LENGTH, PITCH_LENGTH, 0], [0, PITCH_WIDTH, PITCH_WIDTH, 0, 0], color="white", linewidth=1)
     ax.axvline(PITCH_LENGTH / 2, color="white", linewidth=1)
     centre_circle = plt.Circle((PITCH_LENGTH / 2, PITCH_WIDTH / 2), 9.15, color="white", fill=False, linewidth=1)
     ax.add_patch(centre_circle)
-    # penalty boxes
+    # boxes
     ax.plot([0, 18, 18, 0], [18, 18, 62, 62], color="white", linewidth=1)
     ax.plot(
         [PITCH_LENGTH, PITCH_LENGTH - 18, PITCH_LENGTH - 18, PITCH_LENGTH],
@@ -134,7 +130,6 @@ def generate_all_charts(
     corr: pd.DataFrame,
     top_players: pd.DataFrame,
 ) -> list[Path]:
-    """Convenience entry point used by main.py to build every static chart."""
     paths = [
         plot_momentum_timeline(momentum_df, teams),
         plot_correlation_heatmap(corr),

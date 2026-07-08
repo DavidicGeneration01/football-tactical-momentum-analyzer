@@ -1,12 +1,4 @@
-"""
-Data loading utilities.
-
-Since this project isn't wired to a paid event-data provider, `generate_synthetic_events`
-produces a realistic 5,000+ row event-level dataset (passes, shots, goals, tackles,
-fouls, etc., with pitch coordinates) that the rest of the pipeline consumes exactly
-like real StatsBomb/Opta-style event data would be consumed. If you have real data,
-just drop a CSV with the same columns into `data/raw/events.csv` and skip generation.
-"""
+"""Load match events, or make sample data when no CSV exists."""
 
 from __future__ import annotations
 
@@ -45,7 +37,7 @@ EVENT_TYPES = [
     "Offside",
 ]
 
-# Rough relative frequency of each event type in a real match feed.
+# loose event mix, enough to make the fake matches feel believable
 EVENT_WEIGHTS = [
     28, 9, 6, 5, 4, 2, 0.4, 1.2, 6, 8, 7, 2, 6, 1.2, 0.1, 8, 1.1,
 ]
@@ -89,7 +81,7 @@ def generate_synthetic_events(
     n_matches: int = 6,
     seed: int = RANDOM_SEED,
 ) -> pd.DataFrame:
-    """Generate a synthetic but statistically realistic event-level dataset."""
+    """Make the fake match feed used when I do not have real data yet."""
     rng = np.random.default_rng(seed)
     per_match = max(n_events // n_matches, 400)
 
@@ -115,7 +107,7 @@ def generate_synthetic_events(
             minute = max(0, minute)
             second = int(rng.integers(0, 60))
 
-            # Attacking events cluster further up the pitch.
+            # attacking stuff should happen closer to goal
             if event_type in ("Shot", "Shot on Target", "Goal", "Big Chance"):
                 x = rng.uniform(88, 120)
                 y = rng.normal(40, 14)
@@ -183,7 +175,6 @@ def save_raw_events(df: pd.DataFrame, path=RAW_EVENTS_FILE) -> None:
 
 
 def load_raw_data(path=RAW_EVENTS_FILE, generate_if_missing: bool = True) -> pd.DataFrame:
-    """Load the raw event dataset, generating a synthetic one if it doesn't exist."""
     if not path.exists():
         if not generate_if_missing:
             raise FileNotFoundError(f"No raw data found at {path}")

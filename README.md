@@ -1,12 +1,13 @@
 
 # Overview
 
-This is a Python analytics platform that turns raw match event data into a Momentum Index, advanced team & player ratings, an interactive Streamlit
-dashboard, and polished PDF/Excel/HTML reports. I was able to accomplish this because I've watch various lessons on Data Analysis on LinkedIn Learning such as: Python (to refresh my mind), Data Visualization, and Machine Learning. 
+This is my Python football analytics project. It takes match event data and turns it into a Momentum Index, team/player ratings, a Streamlit dashboard, and PDF/Excel/HTML reports.
+
+I built it after going through a bunch of data analysis lessons on LinkedIn Learning, mostly Python refreshers, data visualization, pandas/data cleaning, and a bit of machine learning.
 
 In this project, I built the Dashboard using Streamlit.
 
-The purpose of Football Tactical Momentum Analyzer is basically to quantify, visualize, and track the shifting dominance and attacking pressure of a match in real time. But this is basically for my national premier league (Nigerian Premier League).
+The main idea is simple: track which team is taking control of a match and how attacking pressure changes over time. I made it with the Nigerian Premier League in mind.
 
 
 [Software Demo Video](http://youtube.link.goes.here)

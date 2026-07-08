@@ -1,6 +1,4 @@
-"""
-Small, dependency-light helpers shared across modules.
-"""
+"""Small helpers shared across modules."""
 
 from __future__ import annotations
 
@@ -18,7 +16,6 @@ F = TypeVar("F", bound=Callable[..., Any])
 
 
 def timer(func: F) -> F:
-    """Decorator that logs how long a function took to run."""
 
     @functools.wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -32,7 +29,6 @@ def timer(func: F) -> F:
 
 
 def minute_to_clock(minute: int, second: int = 0) -> str:
-    """Format a minute/second pair as a match-clock string, e.g. 90+2'."""
     if minute > 90:
         return f"90+{minute - 90}'"
     return f"{minute}'"
@@ -43,7 +39,6 @@ def safe_divide(numerator: float, denominator: float, default: float = 0.0) -> f
 
 
 def normalize_series(series: pd.Series) -> pd.Series:
-    """Min-max normalize a pandas Series to [0, 1]."""
     lo, hi = series.min(), series.max()
     if hi == lo:
         return pd.Series(0.5, index=series.index)
@@ -51,13 +46,11 @@ def normalize_series(series: pd.Series) -> pd.Series:
 
 
 def team_pair(df: pd.DataFrame, match_id: int) -> tuple[str, str]:
-    """Return the (home, away) team names for a given match_id."""
     row = df[df["match_id"] == match_id].iloc[0]
     return row["home_team"], row["away_team"]
 
 
 def list_matches(df: pd.DataFrame) -> pd.DataFrame:
-    """One row per match with the two team names, useful for UI dropdowns."""
     return (
         df[["match_id", "home_team", "away_team"]]
         .drop_duplicates()

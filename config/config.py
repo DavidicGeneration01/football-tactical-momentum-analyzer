@@ -1,20 +1,9 @@
-"""
-Global configuration for the Football Tactical Momentum Analyzer.
-
-This module is the single source of truth for filesystem paths and
-project-wide constants. `src/config.py` re-exports everything from here
-so that code under `src/` can simply do `from config import settings`-style
-imports without caring whether it's running from the repo root or a
-notebook.
-"""
+"""Project paths and constants."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-# --------------------------------------------------------------------------
-# Paths
-# --------------------------------------------------------------------------
 ROOT_DIR: Path = Path(__file__).resolve().parent.parent
 
 ASSETS_DIR: Path = ROOT_DIR / "assets"
@@ -32,15 +21,10 @@ RAW_EVENTS_FILE: Path = RAW_DATA_DIR / "events.csv"
 PROCESSED_EVENTS_FILE: Path = PROCESSED_DATA_DIR / "events_clean.parquet"
 PROCESSED_EVENTS_CSV: Path = PROCESSED_DATA_DIR / "events_clean.csv"
 
-# --------------------------------------------------------------------------
-# Pitch dimensions (StatsBomb-style 120 x 80 coordinate system)
-# --------------------------------------------------------------------------
+# StatsBomb-style 120 x 80 pitch
 PITCH_LENGTH: float = 120.0
 PITCH_WIDTH: float = 80.0
 
-# --------------------------------------------------------------------------
-# Momentum Index parameters
-# --------------------------------------------------------------------------
 MOMENTUM_WINDOW_MINUTES: int = 5          # rolling window size
 MOMENTUM_DECAY: float = 0.85              # exponential decay factor per event
 MOMENTUM_EVENT_WEIGHTS: dict[str, float] = {
@@ -63,15 +47,10 @@ MOMENTUM_EVENT_WEIGHTS: dict[str, float] = {
     "Offside": -0.5,
 }
 
-# --------------------------------------------------------------------------
-# Expected Threat (xT) grid resolution
-# --------------------------------------------------------------------------
+# xT grid size
 XT_GRID_X: int = 12
 XT_GRID_Y: int = 8
 
-# --------------------------------------------------------------------------
-# Synthetic data generation
-# --------------------------------------------------------------------------
 DEFAULT_MIN_EVENTS: int = 5000
 RANDOM_SEED: int = 42
 
@@ -99,15 +78,11 @@ TEAMS: list[str] = [
     "Wikki Tourists",
 ]
 
-# --------------------------------------------------------------------------
-# Logging
-# --------------------------------------------------------------------------
 LOG_LEVEL: str = "INFO"
 LOG_FILE: Path = LOGS_DIR / "app.log"
 
 
 def ensure_directories() -> None:
-    """Create every directory this project writes to, if missing."""
     for directory in (
         ASSETS_DIR,
         CHARTS_DIR,

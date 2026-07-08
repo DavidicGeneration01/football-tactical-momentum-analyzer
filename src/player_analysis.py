@@ -1,6 +1,4 @@
-"""
-Phase 2 — Player ratings & comparisons.
-"""
+"""Player ratings and comparison tables."""
 
 from __future__ import annotations
 
@@ -33,7 +31,6 @@ ACTION_WEIGHTS = {
 
 
 def player_match_stats(df: pd.DataFrame) -> pd.DataFrame:
-    """One row per (match_id, player) with counting stats + xg."""
     def _agg(g: pd.DataFrame) -> pd.Series:
         passes = g[g["event_type"].isin(["Pass", "Progressive Pass", "Dangerous Pass", "Cross"])]
         pass_complete = (passes["outcome"] == "Complete").sum()
@@ -62,10 +59,6 @@ def player_match_stats(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def player_rating(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Per (match_id, player) 0-100 rating from a weighted action score,
-    scaled relative to the best performer in that match for context.
-    """
     df = df.copy()
     df["_weight"] = df["event_type"].map(ACTION_WEIGHTS).fillna(0.0)
     df["_score"] = df["_weight"] + df.get("xg", 0).fillna(0) * 6.0
@@ -87,7 +80,6 @@ def top_performers(player_stats: pd.DataFrame, ratings: pd.DataFrame, n: int = 1
 
 
 def compare_players(player_stats: pd.DataFrame, player_a: str, player_b: str) -> pd.DataFrame:
-    """Season-aggregated head-to-head comparison table for two players."""
     numeric_cols = player_stats.select_dtypes(include=[np.number]).columns.tolist()
     numeric_cols = [c for c in numeric_cols if c != "match_id"]
 
