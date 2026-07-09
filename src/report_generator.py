@@ -40,12 +40,14 @@ def export_excel(tables: dict[str, pd.DataFrame], filename: str = "analysis.xlsx
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
         for sheet_name, table in tables.items():
             safe_name = sheet_name[:31]  # Excel gets picky here
-            table.to_excel(writer, sheet_name=safe_name, index=False)
+            # Rename columns to nice display format
+            display_table = table.rename(columns=COLUMN_NAME_MAPPING)
+            display_table.to_excel(writer, sheet_name=safe_name, index=False)
 
             worksheet = writer.sheets[safe_name]
-            for i, col in enumerate(table.columns, start=1):
+            for i, col in enumerate(display_table.columns, start=1):
                 max_len = max(
-                    table[col].astype(str).map(len).max() if len(table) else 0, len(str(col))
+                    display_table[col].astype(str).map(len).max() if len(display_table) else 0, len(str(col))
                 )
                 worksheet.column_dimensions[worksheet.cell(row=1, column=i).column_letter].width = min(
                     max_len + 3, 40

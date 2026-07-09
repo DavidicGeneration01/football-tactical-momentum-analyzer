@@ -36,3 +36,6 @@ Python Programming Language
 * [Youtube - ciao.football](https://www.youtube.com/watch?v=Xqs8T4W_YiI&list=PL7uOLIiQqtTttfZYJA7c95u2Ktt_eIzP9&index=7)
 * [Youtube - ciao.football](https://www.youtube.com/watch?v=VuZtkGJeWR0&list=PL7uOLIiQqtTttfZYJA7c95u2Ktt_eIzP9&index=6)
 * [Youtube - ciao.football](https://www.youtube.com/watch?v=A232z0HG7MA&list=PL7uOLIiQqtTttfZYJA7c95u2Ktt_eIzP9&index=5)
+
+# preview
+python -m streamlit run src/dashboard.py

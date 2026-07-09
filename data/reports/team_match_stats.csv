@@ -1,4 +1,4 @@
-match_id,team,events,passes,pass_accuracy_pct,shots,shots_on_target,goals,xg,fouls,tackles,interceptions,yellow_cards,red_cards,possession_pct
+Match Id,Team,Events,Passes,Pass Accuracy Pct,Shots,Shots On Target,Goals,Xg,Fouls,Tackles,Interceptions,Yellow Cards,Red Cards,Possession Pct
 1,Barau,434.0,217.0,84.3,37.0,15.0,0.0,11.04,15.0,42.0,30.0,3.0,0.0,52.1
 1,Remo Stars,399.0,216.0,81.0,30.0,9.0,2.0,9.7,29.0,21.0,31.0,3.0,1.0,47.9
 2,Enugu Rangers,417.0,193.0,81.9,35.0,10.0,1.0,10.78,26.0,45.0,24.0,6.0,0.0,50.1

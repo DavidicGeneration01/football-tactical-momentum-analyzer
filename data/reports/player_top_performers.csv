@@ -1,4 +1,4 @@
-match_id,player,rating,team,position,events,goals,shots,xg,passes,pass_accuracy_pct,dribbles,tackles,interceptions,fouls,yellow_cards,red_cards
+Match Id,Player,Rating,Team,Position,Events,Goals,Shots,Xg,Passes,Pass Accuracy Pct,Dribbles,Tackles,Interceptions,Fouls,Yellow Cards,Red Cards
 1,Joseph Nnamdi,100.0,Barau,ST,32,0,3,0.73,13,76.9,6,5,2,1,1,0
 2,Femi Ekong,100.0,Remo Stars,LB,28,0,5,1.55,16,81.2,1,2,3,0,0,0
 4,Olamide Abubakar,100.0,Nasarawa United,CDM,34,0,6,1.84,17,70.6,2,4,1,0,0,0
