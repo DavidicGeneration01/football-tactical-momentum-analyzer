@@ -1,4 +1,4 @@
-"""Player ratings and comparison tables."""
+# Player ratings and comparison tables.
 
 from __future__ import annotations
 

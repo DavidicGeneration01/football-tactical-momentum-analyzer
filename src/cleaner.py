@@ -1,4 +1,4 @@
-"""Clean raw event data."""
+# Clean raw event data.
 
 from __future__ import annotations
 

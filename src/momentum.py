@@ -1,4 +1,4 @@
-"""Tactical Momentum Index."""
+# Tactical Momentum Index.
 
 from __future__ import annotations
 

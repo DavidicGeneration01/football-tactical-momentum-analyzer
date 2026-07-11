@@ -1,4 +1,4 @@
-"""Report exports: CSV, Excel, HTML, and PDF."""
+# Report exports: CSV, Excel, HTML, and PDF.
 
 from __future__ import annotations
 

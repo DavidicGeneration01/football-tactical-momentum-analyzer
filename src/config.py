@@ -1,6 +1,5 @@
-"""
-File path via importlib.
-"""
+# File path via importlib.
+
 
 from __future__ import annotations
 

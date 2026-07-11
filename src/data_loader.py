@@ -1,4 +1,4 @@
-"""Load match events, or make sample data when no CSV exists."""
+#Load match events, or make sample data when no CSV exists.
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Team stats, ratings, correlations, and a small xT model."""
+# Team stats, ratings, correlations, and a small xT model.
 
 from __future__ import annotations
 

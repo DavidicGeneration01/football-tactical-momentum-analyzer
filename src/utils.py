@@ -1,4 +1,4 @@
-"""Small helpers shared across modules."""
+# Modules.
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Project logging setup."""
+# Project logging setup.
 
 from __future__ import annotations
 

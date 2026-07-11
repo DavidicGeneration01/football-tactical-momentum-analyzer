@@ -1,4 +1,4 @@
-"""Streamlit dashboard. Run with: streamlit run src/dashboard.py"""
+# Streamlit dashboard. Run with: streamlit run src/dashboard.py
 
 from __future__ import annotations
 

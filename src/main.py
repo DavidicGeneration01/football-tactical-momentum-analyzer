@@ -1,4 +1,4 @@
-"""CLI pipeline. Run with: python src/main.py"""
+# CLI pipeline. Run with: python src/main.py
 
 from __future__ import annotations
 

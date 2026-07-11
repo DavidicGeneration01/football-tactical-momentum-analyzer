@@ -1,4 +1,4 @@
-"""Static charts for the reports."""
+# Static charts for the reports.
 
 from __future__ import annotations
 
